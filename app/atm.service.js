@@ -17,7 +17,7 @@ var AtmService = (function () {
     AtmService.prototype.setBalance = function (val) {
         this.balance = val;
     };
-    AtmService.prototype.getBalance = function (val) {
+    AtmService.prototype.getBalance = function () {
         return this.balance;
     };
     AtmService.prototype.addTransaction = function (transaction) {

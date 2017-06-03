@@ -16,10 +16,9 @@ import {Transaction} from './transaction.model'
 export class AtmComponent {
   balance:string
   atmService:AtmService
-  constructor(private atmService:AtmService) {
+  constructor(atmService:AtmService) {
     this.atmService = atmService
-    this.balance = this.atmService.getBalance()
-    this.balance = this.balance.toFixed(2)
+    this.balance = String(this.atmService.getBalance())
     this.balance = '$' + this.balance
   }
   private deposit(value: string): void {
@@ -36,13 +35,10 @@ export class AtmComponent {
   }
   private changeBalance(serviceBalance:number, amount:number, type:string) {
     this.atmService.setBalance(serviceBalance)
-    amount = amount.toFixed(2)
     if (serviceBalance < 0) {
       serviceBalance = Math.abs(serviceBalance)
-      serviceBalance = serviceBalance.toFixed(2)
       this.balance = '($' + serviceBalance + ')'
     } else {
-      serviceBalance = serviceBalance.toFixed(2)
       this.balance = '$' + serviceBalance
     }
     let date =  new Date()

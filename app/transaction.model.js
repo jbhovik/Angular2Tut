@@ -1,7 +1,7 @@
 "use strict";
 var Transaction = (function () {
     function Transaction(date, type, amount, balance) {
-        this._date = date;
+        this._date = String(date);
         this._type = type;
         this._amount = amount;
         this._balance = balance;

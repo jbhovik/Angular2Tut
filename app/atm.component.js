@@ -14,9 +14,7 @@ var transaction_model_1 = require("./transaction.model");
 var AtmComponent = (function () {
     function AtmComponent(atmService) {
         this.atmService = atmService;
-        this.atmService = atmService;
-        this.balance = this.atmService.getBalance();
-        this.balance = this.balance.toFixed(2);
+        this.balance = String(this.atmService.getBalance());
         this.balance = '$' + this.balance;
     }
     AtmComponent.prototype.deposit = function (value) {
@@ -33,14 +31,11 @@ var AtmComponent = (function () {
     };
     AtmComponent.prototype.changeBalance = function (serviceBalance, amount, type) {
         this.atmService.setBalance(serviceBalance);
-        amount = amount.toFixed(2);
         if (serviceBalance < 0) {
             serviceBalance = Math.abs(serviceBalance);
-            serviceBalance = serviceBalance.toFixed(2);
             this.balance = '($' + serviceBalance + ')';
         }
         else {
-            serviceBalance = serviceBalance.toFixed(2);
             this.balance = '$' + serviceBalance;
         }
         var date = new Date();

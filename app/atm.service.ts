@@ -8,10 +8,10 @@ export class AtmService {
   constructor() {
     this.balance = 1000
   }
-  setBalance(val) {
+  setBalance(val:number) {
     this.balance = val;
   }
-  getBalance(val) {
+  getBalance() {
     return this.balance;
   }
   addTransaction(transaction:Transaction) {
