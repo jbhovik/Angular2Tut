@@ -18,16 +18,18 @@ export class AtmComponent {
   atmService:AtmService
   constructor(atmService:AtmService) {
     this.atmService = atmService
-    this.balance = String(this.atmService.getBalance())
-    this.balance = '$' + this.balance
+    let serviceBalance:number = this.atmService.getBalance()
+    let serviceBalanceRounded:number = Math.round(serviceBalance * 100) / 100
+    serviceBalanceRounded = serviceBalanceRounded.toFixed(2)
+    this.balance = '$' + String(serviceBalanceRounded)
   }
-  private deposit(value: string): void {
+  private deposit(value:string): void {
     let serviceBalance:number = this.atmService.getBalance()
     let amount:number = +value
     serviceBalance = serviceBalance + amount
     this.changeBalance(serviceBalance, amount, 'Deposit')
   }
-  private withdraw(value: string): void {
+  private withdraw(value:string): void {
     let serviceBalance:number = this.atmService.getBalance()
     let amount:number = +value
     serviceBalance = serviceBalance - amount
@@ -35,14 +37,18 @@ export class AtmComponent {
   }
   private changeBalance(serviceBalance:number, amount:number, type:string) {
     this.atmService.setBalance(serviceBalance)
+    let serviceBalanceRounded:number = Math.round(serviceBalance * 100) / 100
+    serviceBalanceRounded = serviceBalanceRounded.toFixed(2)
+    let amountRounded = Math.round(amount * 100) / 100
+    amountRounded = amountRounded.toFixed(2)
     if (serviceBalance < 0) {
-      serviceBalance = Math.abs(serviceBalance)
-      this.balance = '($' + serviceBalance + ')'
+      serviceBalanceRounded = Math.abs(serviceBalanceRounded)
+      this.balance = '($' + serviceBalanceRounded + ')'
     } else {
-      this.balance = '$' + serviceBalance
+      this.balance = '$' + serviceBalanceRounded
     }
     let date =  new Date()
-    let transaction:Transaction = new Transaction(date, type, '$' + amount, this.balance)
+    let transaction:Transaction = new Transaction(date, type, '$' + amountRounded, this.balance)
     this.atmService.addTransaction(transaction)
   }
 }

@@ -14,8 +14,10 @@ var transaction_model_1 = require("./transaction.model");
 var AtmComponent = (function () {
     function AtmComponent(atmService) {
         this.atmService = atmService;
-        this.balance = String(this.atmService.getBalance());
-        this.balance = '$' + this.balance;
+        var serviceBalance = this.atmService.getBalance();
+        var serviceBalanceRounded = Math.round(serviceBalance * 100) / 100;
+        serviceBalanceRounded = serviceBalanceRounded.toFixed(2);
+        this.balance = '$' + String(serviceBalanceRounded);
     }
     AtmComponent.prototype.deposit = function (value) {
         var serviceBalance = this.atmService.getBalance();
@@ -31,15 +33,19 @@ var AtmComponent = (function () {
     };
     AtmComponent.prototype.changeBalance = function (serviceBalance, amount, type) {
         this.atmService.setBalance(serviceBalance);
+        var serviceBalanceRounded = Math.round(serviceBalance * 100) / 100;
+        serviceBalanceRounded = serviceBalanceRounded.toFixed(2);
+        var amountRounded = Math.round(amount * 100) / 100;
+        amountRounded = amountRounded.toFixed(2);
         if (serviceBalance < 0) {
-            serviceBalance = Math.abs(serviceBalance);
-            this.balance = '($' + serviceBalance + ')';
+            serviceBalanceRounded = Math.abs(serviceBalanceRounded);
+            this.balance = '($' + serviceBalanceRounded + ')';
         }
         else {
-            this.balance = '$' + serviceBalance;
+            this.balance = '$' + serviceBalanceRounded;
         }
         var date = new Date();
-        var transaction = new transaction_model_1.Transaction(date, type, '$' + amount, this.balance);
+        var transaction = new transaction_model_1.Transaction(date, type, '$' + amountRounded, this.balance);
         this.atmService.addTransaction(transaction);
     };
     return AtmComponent;
